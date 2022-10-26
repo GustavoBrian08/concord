@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,14 +11,17 @@
     <link rel="shortcut icon" href="img/favicon.png" type="image/x-icon">
     <script src="js/scripts.js" type="module" defer></script>
 </head>
+
 <body>
-    <header> <!-- Colocar fundo parallax aqui -->
+    <header>
+        <!-- Colocar fundo parallax aqui -->
         <nav>
-            <a href="index.html" id="main-page-link"><img src="img/icon_menu.png" alt="Concord" id="icon-menu"> Concord</a>
-            <div class="nav-buttons"> 
+            <a href="index.html" id="main-page-link"><img src="img/icon_menu.png" alt="Concord" id="icon-menu">
+                Concord</a>
+            <div class="nav-buttons">
                 <button id="login-modal-button" class="button-nav">Cadastrar/Entrar</button>
                 <button id="change-theme-button" class="button-nav"><i class="fa-solid fa-moon"></i></button>
-            </div>                                                         <!-- fa-sun/fa-moon -->
+            </div> <!-- fa-sun/fa-moon -->
         </nav>
         <div class="presentation">
             <h1></h1>
@@ -53,5 +57,34 @@
 
     <!-- Loading rápido -->
     <!-- Modal -->
+    <div class="background-modal">
+
+        <div class="login-modal">
+            <form class="form-login">
+                <h2>Boas vindas de volta!</h2>
+                <p>estamos muito animados em te ver novamente</p>
+                <p>email:</p>
+                <input type="email" class="input-texto">
+                <p>senha:</p>
+                <input type="password" class="input-texto">
+                <input type="submit" value="entrar" class="input-login">
+                <p>não tem uma conta?<a href="#">cadastre-se</a></p>
+            </form>
+        </div>
+        <form class="login-modal cadastro">
+            <div class="cadastro-modal">
+                <h2>Criar uma conta</h2>
+                <p>email:</p>
+                <input type="email" class="input-texto">
+                <p>senha:</p>
+                <input type="password"class="input-texto">
+                <p>nome de usuário:</p>
+                <input type="text" class="input-texto">
+                <input type="submit" value="cadastre-se" class="input-login">
+                <p>ao cadastrar você "concord" com os<a href="#"> termos de uso</a></p>
+            </div>
+        </form>
+    </div>
 </body>
+
 </html>

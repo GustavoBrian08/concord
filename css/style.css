@@ -10,6 +10,9 @@
     --cor-principal: #00CE55;
     --cor-light-theme: #F6F6F6;
     --cor-dark-theme: #181818;
+    --cor-texto-principal: black;
+    --cor-botões:#53a553;
+    --cor-texto-botões:#dff7e0;
 }
 
 header {
@@ -66,4 +69,76 @@ header nav {
 .button-nav:hover {
     color: var(--cor-principal);
     box-shadow: 0px 6px 8px 1px #00000040;
+}
+
+.background-modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #1b1f27d2;
+    color: var(--cor-texto-principal);
+    position: absolute;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    top: 0;
+    height: 100vh;
+    width: 100vw;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.login-modal {
+    display: flex;
+    flex-direction: column;
+    background-color: #56c756;
+    border-radius: 10px;
+    width: 544px;
+    height: 408px;
+    padding: 30px;
+}
+.login-modal h2{
+    align-self: center;
+    margin-bottom: 2.3vh;
+}
+
+.form-login {
+    display: flex; 
+    flex-direction: column;
+    height: 100%;
+}
+
+.input-texto{
+    margin-top:5px;
+    background-color: var(--cor-light-theme);
+    color: var(--cor-texto-principal);
+    border: none;
+    border-radius: 4px;
+    width: 100%;
+    height: 4vh;
+    margin:2.3vh 0px;
+    outline: none;
+}
+
+.input-login {
+    display: block;
+    background-color: var(--cor-botões);
+    color: var(--cor-texto-botões);
+    border: none;
+    border-radius: 4px;
+    font-size: 15px;
+    width: 15vh;
+    height:3vh;
+    margin-bottom: 2.3vh;
+    align-self: center;
+    text-transform: uppercase;
+    font-weight: bold;
+    cursor: pointer;
+}
+.cadastro{
+    display: none;
+}
+a {
+    color: rgb(110, 238, 255);
+    text-decoration: none;
+    margin-left: 6px;
 }
