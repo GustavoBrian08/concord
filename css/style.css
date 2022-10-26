@@ -1,0 +1,69 @@
+@import url('https://fonts.googleapis.com/css2?family=Titan+One&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --cor-principal: #00CE55;
+    --cor-light-theme: #F6F6F6;
+    --cor-dark-theme: #181818;
+}
+
+header {
+    background-color: var(--cor-principal);
+    height: 81vh;
+}
+
+header nav {
+    display: flex;
+    padding: 17px 0;
+    font-family: 'Titan One', cursive;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#main-page-link {
+    display: flex;
+    text-decoration: none;
+    align-items: center;
+    font-size: 1.4rem;
+    color: white;
+}
+
+#icon-menu {
+    height: 40px;
+    width: 40px;
+    margin: 5px;
+}
+
+.nav-buttons {
+    display: flex;
+    align-items: center;
+}
+
+.button-nav {
+    background-color: white;
+    padding: 12px 18px;
+    border-radius: 30px;
+    border: none;
+    font-size: 0.85rem;
+    margin: 0 3px;
+    cursor: pointer;
+    transition: .2s ease-in-out;
+}
+
+#change-theme-button {
+    padding: 0px;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+}
+
+.button-nav:hover {
+    color: var(--cor-principal);
+    box-shadow: 0px 6px 8px 1px #00000040;
+}
