@@ -1,14 +1,8 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.12.1/firebase-app.js";
-import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.12.1/firebase-firestore.js"
+const botao = document.querySelector('#cadastro-button');
+const login_modal = document.querySelector('.login-modal');
+const cadastro_modal = document.getElementById('cadastro-modal');
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyCAZoxLc4Q-bOzuma-qiIxanO8haVznHCI",
-    authDomain: "concord-v1.firebaseapp.com",
-    projectId: "concord-v1",
-    storageBucket: "concord-v1.appspot.com",
-    messagingSenderId: "373783464860",
-    appId: "1:373783464860:web:8dce1a8eb7fb8d66805659"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
+const botaoCadastro = function(){
+    login_modal.style.display = 'none'
+    cadastro_modal.style.display = 'flex'
+}

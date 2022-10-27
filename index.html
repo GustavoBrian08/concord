@@ -9,8 +9,9 @@
     <script src="https://kit.fontawesome.com/3a51a2fe3a.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="css/style.css">
     <link rel="shortcut icon" href="img/favicon.png" type="image/x-icon">
-    <script src="js/scripts.js" type="module" defer></script>
+    <script src="js/firebase.js" type="module" defer></script>
     <script src="js/parallax.js" defer></script>
+    <script src="js/scripts.js" defer></script>
 </head>
 
 <body>
@@ -36,29 +37,37 @@
         <img src="img/parallax/montanhaFrente" alt="..." id="montanha-frente">
     </section>
     <main>
-        <section>
-            <img src="" alt="">
+        <section class="section-presentation">
+            <img src="img/section-image.png" alt="Pessoinhas e um celular gigante">
             <div>
                 <h2>Crie um espaço controlado por convite onde você se sinta em casa</h2>
                 <p>Os servidores Discord são organizados em canais com assuntos para vocês colaborarem, compartilharem ou simplesmente falarem do dia sem entupir um chat geral.</p>
             </div>
         </section>
-        <section>
-            <img src="" alt="">
+        <section class="section-presentation">
             <div>
-                <h2></h2>
-                <p></p>
+                <h2>Aqui é fácil se encontrar</h2>
+                <p>Entre no canal de voz quando estiver à toa. Amigos no mesmo servidor podem te ver e entrar imediatamente, sem nem ter que fazer a chamada.</p>
             </div>
+            <img src="img/section-image-2.png" alt="PC top">
         </section>
-        <section>
-            <img src="" alt="">
+        <section class="section-presentation">
+            <img src="img/section-image-3.png" alt="Cara feliz usando o Concord">
             <div>
-                <h2></h2>
-                <p></p>
+                <h2>Para poucos e para muitos</h2>
+                <p>Organize qualquer comunidade com ferramentas de moderação e acesso personalizado a membros. Dê poderes especiais aos membros, monte canais privados e muito mais.</p>
             </div>
         </section>
     </main>
     <footer>
+        <div id="footer-container-1">
+            <h1>Vamos começar sua jornada?</h1>
+            <a class="button-nav" href="#background-modal">Comece já!</a>
+        </div>
+        <div id="footer-container-2">
+            <a href="#" class="terms-link">Termos de Uso</a>
+            <p>Desenvolvido por: Adelane Carvalho, Gabriel Fontenele e Pedro Pettigrew</p>
+        </div>
     </footer>
 
     <!-- Loading rápido -->
@@ -68,28 +77,28 @@
         <div class="login-modal">
             <form class="form-login">
                 <h2>Boas vindas de volta!</h2>
-                <p>estamos muito animados em te ver novamente</p>
-                <label for="email">email:</label>
-                <input type="email" class="input-texto">
-                <label for="password">senha:</label>
-                <input type="password" class="input-texto">
-                <input type="submit" value="entrar" class="input-login">
-                <p>não tem uma conta?<a href="#">cadastre-se</a></p>
+                <p>Estamos muito animados em te ver novamente!</p>
+                <label for="email">E-mail:</label>
+                <input type="email" id="email-login" class="input-texto">
+                <label for="password">Senha:</label>
+                <input type="password" id="password-login" class="input-texto">
+                <input type="submit" value="entrar" class="input-login" id="login-input">
+                <p>não tem uma conta?<button id="cadasto-button" onclick="botaoCadastro()" href="#cadastro-modal">cadastre-se</button></p>
             </form>
         </div>
-        <form class="login-modal cadastro">
-            <div class="cadastro-modal">
+        <div id="cadastro-modal">
+            <form class="form-cadastro">
                 <h2>Criar uma conta</h2>
-                <p>email:</p>
-                <input type="email" class="input-texto">
-                <p>senha:</p>
-                <input type="password"class="input-texto">
-                <p>nome de usuário:</p>
-                <input type="text" class="input-texto">
-                <input type="submit" value="cadastre-se" class="input-login">
-                <p>ao cadastrar você "concord" com os<a href="#"> termos de uso</a></p>
-            </div>
-        </form>
+                <label for="email">email:</label>
+                <input type="email" class="input-texto" id="email-cadastro">
+                <label for="password">senha:</label>
+                <input type="password"class="input-texto" id="password-cadastro">
+                <label for="username">nome de usuário:</label>
+                <input type="text" class="input-texto" id="username">
+                <input type="submit" value="cadastre-se" class="input-login" id="cadastrar-input">
+                <p>ao cadastrar você "concord" com os<a href="#" class="terms-link"> termos de uso</a></p>
+            </form>
+        </div>
     </div>
 </body>
 
