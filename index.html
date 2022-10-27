@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="shortcut icon" href="img/favicon.png" type="image/x-icon">
     <script src="js/scripts.js" type="module" defer></script>
+    <script src="js/parallax.js" defer></script>
 </head>
 
 <body>
@@ -19,22 +20,27 @@
             <a href="index.html" id="main-page-link"><img src="img/icon_menu.png" alt="Concord" id="icon-menu">
                 Concord</a>
             <div class="nav-buttons">
-                <button id="login-modal-button" class="button-nav">Cadastrar/Entrar</button>
+                <a href="#background-modal" id="login-modal-button" class="button-nav">Cadastrar/Entrar</a>
                 <button id="change-theme-button" class="button-nav"><i class="fa-solid fa-moon"></i></button>
-            </div> <!-- fa-sun/fa-moon -->
+            </div>                                                         <!-- fa-sun/fa-moon -->
         </nav>
-        <div class="presentation">
-            <h1></h1>
-            <p></p>
-            <button>Comece já!</button>
+        <div id="presentation">
+                <h1>IMAGINE UM LUGAR...</h1>
+                <p>…onde você possa pertencer a um clube escolar, um grupo de gamers, ou uma comunidade artística mundial. Onde você e alguns amigos possam passar um tempo juntos. Um lugar que torna fácil conversar todos os dias e socializar com mais frequência.</p>
+                <a class="button-nav" href="#background-modal">Comece já!</a>
         </div>
     </header>
+    <section id="parallax-main">
+        <img src="img/parallax/ceu" alt="..." id="ceu">
+        <img src="img/parallax/montanhasTras" alt="..." id="montanhas-tras">
+        <img src="img/parallax/montanhaFrente" alt="..." id="montanha-frente">
+    </section>
     <main>
         <section>
             <img src="" alt="">
             <div>
-                <h2></h2>
-                <p></p>
+                <h2>Crie um espaço controlado por convite onde você se sinta em casa</h2>
+                <p>Os servidores Discord são organizados em canais com assuntos para vocês colaborarem, compartilharem ou simplesmente falarem do dia sem entupir um chat geral.</p>
             </div>
         </section>
         <section>
@@ -56,16 +62,16 @@
     </footer>
 
     <!-- Loading rápido -->
-    <!-- Modal -->
-    <div class="background-modal">
+    <!-- Modal ???????-->
+    <div id="background-modal">
 
         <div class="login-modal">
             <form class="form-login">
                 <h2>Boas vindas de volta!</h2>
                 <p>estamos muito animados em te ver novamente</p>
-                <p>email:</p>
+                <label for="email">email:</label>
                 <input type="email" class="input-texto">
-                <p>senha:</p>
+                <label for="password">senha:</label>
                 <input type="password" class="input-texto">
                 <input type="submit" value="entrar" class="input-login">
                 <p>não tem uma conta?<a href="#">cadastre-se</a></p>
