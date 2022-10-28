@@ -19,6 +19,10 @@
     --cor-texto-botões:#dff7e0;
 }
 
+.dark-theme {
+    background-color: var(--cor-dark-theme);
+}
+
 body {
     overflow: hidden;
 }
@@ -133,8 +137,8 @@ body {
 
 #change-theme-button {
     padding: 0px;
-    height: 40px;
-    width: 40px;
+    min-height: 40px;
+    min-width: 40px;
     border-radius: 50%;
     font-size: 1.2rem;
     border: none;
