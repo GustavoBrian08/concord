@@ -24,7 +24,7 @@ body {
 }
 
 header {
-    height: 90vh;
+    height: 100vh;
     display: flex;
     flex-direction: column;
 }
@@ -227,7 +227,7 @@ header nav {
     bottom: 0;
     right: 0;
     width: 105%;
-    height: 90vh;
+    height: 100vh;
     padding: 100px;
     z-index: -1;
 }
@@ -240,7 +240,7 @@ header nav {
     right: 0;
     width: 100%;
     height: 80px;
-    background-image: linear-gradient(to top, var(--cor-principal), transparent, transparent);
+    background-image: linear-gradient(to top, var(--cor-dark-theme), transparent);
     z-index: 1;
 }
 

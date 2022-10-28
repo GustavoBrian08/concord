@@ -4,16 +4,77 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="css/style.css">
+    <title>Concord | Chat</title>
+    <script src="https://kit.fontawesome.com/3a51a2fe3a.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="css/chat.css">
+    <link rel="shortcut icon" href="img/favicon.png" type="image/x-icon">
+    <script src="js/firebase.js" type="module" defer></script>
+    <script src="js/scripts.js" defer></script>
 </head>
 <body>
-    <main>
+    <main id="container">
         <aside id="conversation">
-            
+            <nav>
+                <input type="text" name="search-conversation" id="search-conversation" placeholder="Busque um canal...">
+            </nav>
+            <div id="channels">
+                <div class="title-container">
+                    <h5>CANAIS</h5>
+                    <button><i class="fa-solid fa-plus"></i></button>
+                </div>
+                <span class="span-channel-user">
+                    <img src="img/favicon.png" alt="test">
+                    <h3>Pokémon Go Piripiri</h3>
+                </span>
+                <span class="span-channel-user">
+                    <img src="img/favicon.png" alt="test">
+                    <h3>Central Filadélfia</h3>
+                </span>
+            </div>
+            <div id="direct-messages">
+                <div class="title-container">
+                    <h5>MENSAGENS DIRETAS</h5>
+                    <button><i class="fa-solid fa-plus"></i></button>
+                </div>
+                <span class="span-channel-user">
+                    <img src="img/favicon.png" alt="test">
+                    <h3>Ade</h3>
+                </span>
+            </div>
+            <span id="user-container">
+                <div>
+                    <img src="img/favicon.png" alt="test">
+                    <h4 id="username-field">gustavo_brian_</h4>
+                </div>
+                <button id="change-theme-button" class="button-nav"><i class="fa-solid fa-moon"></i></button>
+            </span>
         </aside>
+
         <div id="chat">
-            
+            <nav>
+                <span class="span-channel-user">
+                    <img src="img/favicon.png" alt="test">
+                    <h3>Ade</h3>
+                </span>
+                <input type="text" placeholder="Encontrar mensagem">
+            </nav>
+            <div id="messages">
+                <div class="container-message-received">
+                    <span class="message-span">
+                        <h5>Ade</h5>
+                        <p class="message-text">Testando 1 2 3...</p>
+                    </span>
+                </div>
+                <div class="container-message-sended">
+                    <span class="message-span">
+                        <p class="message-text">...3 2 1 testando</p>
+                    </span>
+                </div>
+            </div>
+            <form id="text-field">
+                <input type="text" name="text" id="input-text" placeholder="Escreva aqui...">
+                <button id="send-button"><i class="fa-solid fa-paper-plane"></i></button>
+            </form>
         </div>
     </main>
 </body>
