@@ -54,33 +54,31 @@ onAuthStateChanged(auth,async (user) => {
         const data = doc.data().usuarios;
         const conversa_id = doc.id;
         data.forEach(async function(usuario_conversa){
-          
-          const mensagens = query(collection(db, "Mensagens"), orderBy('criadoEm'));
-            const dados_mensagens = await getDocs(mensagens);
 
-            dados_mensagens.forEach((doc) => {
-              const mensagem = doc.data().texto;              
-              
-              if (usuario_conversa != username){
-                var outro_usuario = usuario_conversa;
-                if(doc.data().usuario == outro_usuario){
-                  carregarMensagemRecebida(outro_usuario, mensagem);
-                  
-                } else if(doc.data().usuario == username){
-                  if(text_field){
-                    text_field.addEventListener("submit", function(e){
-                      //console.log("Mensagem enviada através da função externa!");
-                      e.preventDefault();
-                      enviarMensagem(input_text.value, conversa_id, username);
-                    })
-                  }
-                  const tempo = doc.data().criadoEm;
-                  
-                  carregarMensagemEnviada(mensagem);
-                  
-                }               
-              }
-            });
+          text_field.addEventListener("submit", function(e){
+            e.preventDefault();
+            if(input_text.value.length != 0 && input_text.value != ' ') {
+              enviarMensagem(input_text.value, conversa_id, username);
+            }
+          })
+                    
+          const mensagens = query(collection(db, "Mensagens"), orderBy('criadoEm'));
+          const dados_mensagens = await getDocs(mensagens);
+
+          dados_mensagens.forEach((doc) => {
+            const mensagem = doc.data().texto;              
+                          
+            if (usuario_conversa != username){
+              var outro_usuario = usuario_conversa;
+              if(doc.data().usuario == outro_usuario){
+                carregarMensagemRecebida(outro_usuario, mensagem);
+                
+              } else if(doc.data().usuario == username){  
+                const tempo = doc.data().criadoEm;
+                carregarMensagemEnviada(mensagem);
+              }               
+            }
+          });
         })
       });
     });
