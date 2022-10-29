@@ -48,38 +48,44 @@ onAuthStateChanged(auth,async (user) => {
       console.log(username);
       
       const conversas = query(collection(db, "Conversas"), where("usuarios", "array-contains", username));
-      const dados_conversas = await getDocs(conversas);
       
-      dados_conversas.forEach((doc) => {
-        const data = doc.data().usuarios;
-        const conversa_id = doc.id;
-        data.forEach(async function(usuario_conversa){
+      const dados_conversas = onSnapshot(conversas, (snapshot) => {
+        snapshot.docChanges().forEach((change) => {
+          if (change.type === "added") {
+            const data = change.doc.data().usuarios;
+            const conversa_id = change.doc.id;
+            data.forEach(async function(usuario_conversa){
 
-          text_field.addEventListener("submit", function(e){
-            e.preventDefault();
-            if(input_text.value.length != 0 && input_text.value != ' ') {
-              enviarMensagem(input_text.value, conversa_id, username);
-            }
-          })
-                    
-          const mensagens = query(collection(db, "Mensagens"), orderBy('criadoEm'));
-          const dados_mensagens = await getDocs(mensagens);
+              text_field.addEventListener("submit", function(e){
+                e.preventDefault();
+                if(input_text.value.length != 0 && input_text.value != ' ') {
+                  enviarMensagem(input_text.value, conversa_id, username);
+                }
+              })
+            
+              const mensagens = query(collection(db, "Mensagens"), orderBy('criadoEm'));
 
-          dados_mensagens.forEach((doc) => {
-            const mensagem = doc.data().texto;              
-                          
-            if (usuario_conversa != username){
-              var outro_usuario = usuario_conversa;
-              if(doc.data().usuario == outro_usuario){
-                carregarMensagemRecebida(outro_usuario, mensagem);
-                
-              } else if(doc.data().usuario == username){  
-                const tempo = doc.data().criadoEm;
-                carregarMensagemEnviada(mensagem);
-              }               
-            }
-          });
-        })
+              const dados_mensagens = onSnapshot(mensagens, (snapshot) => {
+                snapshot.docChanges().forEach((change) => {
+                  if (change.type === "added") {
+                    const mensagem = change.doc.data().texto;              
+                              
+                    if (usuario_conversa != username){
+                      var outro_usuario = usuario_conversa;
+                      if(change.doc.data().usuario == outro_usuario){
+                        carregarMensagemRecebida(outro_usuario, mensagem);
+                        
+                      } else if(change.doc.data().usuario == username){  
+                        const tempo = change.doc.data().criadoEm;
+                        carregarMensagemEnviada(mensagem);
+                      }               
+                    }
+                  }
+                });
+              });
+            })
+          }
+        });
       });
     });
   } else {
@@ -150,6 +156,7 @@ function carregarMensagemRecebida(user, text){
 
   novo_usuario_nome.innerHTML = user;
   nova_mensagem.innerHTML = text;
+  messages.scroll(0,100);
 }
 
 function carregarMensagemEnviada(text){
@@ -165,12 +172,11 @@ function carregarMensagemEnviada(text){
   novo_container_mensagem.appendChild(novo_span_mensagem);
   novo_span_mensagem.appendChild(nova_mensagem);
   nova_mensagem.innerHTML = text;
+  messages.scroll(0,100);
 }
 
 async function enviarMensagem(text, conversa_id, username){
-  carregarMensagemEnviada(input_text.value);
   input_text.value = '';
-
   try {
     const docRef = await addDoc(collection(db, "Mensagens"), {
       conversa: `/Conversas/${conversa_id}`,
