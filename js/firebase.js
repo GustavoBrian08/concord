@@ -31,8 +31,10 @@ const messages = document.getElementById('messages');
 const text_field = document.getElementById('text-field');
 const input_text = document.getElementById('input-text');
 const container_message_sended = document.getElementsByClassName('container-message-sended');
-const message_span = document.getElementsByClassName('message-span');
+const span_channel_user = document.getElementsByClassName('span-channel-user');
 const username_field = document.getElementById('username-field');
+const username_direct_message = document.getElementsByClassName('username-direct-message');
+const direct_messages = document.getElementById('direct-messages');
 
 if(cadastrarInput) cadastrarInput.onclick = cadastrarUsuario;
 if(loginInput) loginInput.onclick = fazerLogin;
@@ -40,21 +42,30 @@ if(loginInput) loginInput.onclick = fazerLogin;
 onAuthStateChanged(auth,async (user) => {
   if (user) {
 
+    const outro_usuarios = query(collection(db, "Usuarios"), where("email", "!=", user.email));
+    const dados_outros_usuarios = await getDocs(outro_usuarios);
+    dados_outros_usuarios.forEach((doc) => {
+      var usuario = doc.data().username;
+      carregarUsuarios(usuario);
+    });
+
     const usuarios = query(collection(db, "Usuarios"), where("email", "==", user.email));
     const dados_usuarios = await getDocs(usuarios);
     
     dados_usuarios.forEach(async (usuario) => {
       const username = usuario.data().username;
       console.log(username);
+
+      username_field.innerHTML = username;
       
       const conversas = query(collection(db, "Conversas"), where("usuarios", "array-contains", username));
       
       const dados_conversas = onSnapshot(conversas, (snapshot) => {
         snapshot.docChanges().forEach((change) => {
           if (change.type === "added") {
-            const data = change.doc.data().usuarios;
+            const lista_conversa_usuarios = change.doc.data().usuarios;
             const conversa_id = change.doc.id;
-            data.forEach(async function(usuario_conversa){
+            lista_conversa_usuarios.forEach(async function(usuario_conversa){
 
               text_field.addEventListener("submit", function(e){
                 e.preventDefault();
@@ -68,17 +79,34 @@ onAuthStateChanged(auth,async (user) => {
               const dados_mensagens = onSnapshot(mensagens, (snapshot) => {
                 snapshot.docChanges().forEach((change) => {
                   if (change.type === "added") {
-                    const mensagem = change.doc.data().texto;              
+                    const mensagem = change.doc.data().texto;
+                    const mensagem_conversa = change.doc.data().conversa;
+                    const autor_mensagem = change.doc.data().usuario;
                               
                     if (usuario_conversa != username){
                       var outro_usuario = usuario_conversa;
-                      if(change.doc.data().usuario == outro_usuario){
-                        carregarMensagemRecebida(outro_usuario, mensagem);
-                        
-                      } else if(change.doc.data().usuario == username){  
-                        const tempo = change.doc.data().criadoEm;
-                        carregarMensagemEnviada(mensagem);
-                      }               
+                      
+                      
+                      for(var i = 0; i < username_direct_message.length; i++){
+                        username_direct_message[i].innerHTML = outro_usuario;
+                      }
+                      console.log(usuario_conversa)
+                      if(conversa_id == mensagem_conversa){
+                        console.log(`chegou aqui`)
+                        if(autor_mensagem == outro_usuario){
+                          //console.log(`outro usuario: ${conversa_id}`)
+                          //console.log(`outro usuario: ${mensagem_conversa}`)
+                          carregarMensagemRecebida(outro_usuario, mensagem);
+                          abrirConversa(mensagem, autor_mensagem, outro_usuario);
+                          
+                        } else if(autor_mensagem == username){  
+                          //console.log(`este usuario: ${conversa_id}`)
+                          //console.log(`este usuario: ${mensagem_conversa}`)
+                          carregarMensagemEnviada(mensagem);
+                          //console.log(mensagem)
+                          abrirConversa(mensagem, autor_mensagem, outro_usuario);
+                        }               
+                      }
                     }
                   }
                 });
@@ -100,7 +128,6 @@ async function cadastrarUsuario(){
     const docRef = await addDoc(collection(db, "Usuarios"), {
       username: username.value,
       email: email_cadastro.value,
-      conversas: {}
     });
     console.log("Document written with ID: ", docRef.id);
     setTimeout(function(){
@@ -157,6 +184,10 @@ function carregarMensagemRecebida(user, text){
   novo_usuario_nome.innerHTML = user;
   nova_mensagem.innerHTML = text;
   messages.scroll(0,100);
+  var audio = new Audio('./sound/mensagem_recebida.mp3');
+  audio.addEventListener('canplaythrough', function() {
+    audio.play();
+  });
 }
 
 function carregarMensagemEnviada(text){
@@ -179,7 +210,7 @@ async function enviarMensagem(text, conversa_id, username){
   input_text.value = '';
   try {
     const docRef = await addDoc(collection(db, "Mensagens"), {
-      conversa: `/Conversas/${conversa_id}`,
+      conversa: conversa_id,
       texto: text,
       usuario: username,
       criadoEm: serverTimestamp()
@@ -187,5 +218,34 @@ async function enviarMensagem(text, conversa_id, username){
     console.log("Document written with ID: ", docRef.id);
   } catch (e) {
     console.error("Error adding document: ", e);
+  }
+}
+
+function carregarUsuarios(username){
+  const novo_container_usuario = document.createElement('span');
+  const nova_imagem_usuario = document.createElement('img');
+  const novo_nome_usuario = document.createElement('h3');
+  
+  novo_container_usuario.classList.add('span-channel-user');
+
+  direct_messages.appendChild(novo_container_usuario);
+  novo_container_usuario.appendChild(nova_imagem_usuario);
+  novo_container_usuario.appendChild(novo_nome_usuario);
+
+  nova_imagem_usuario.src = 'img/favicon.png';
+  nova_imagem_usuario.alt = username;
+  novo_nome_usuario.innerHTML = username;
+}
+
+function abrirConversa(text, autor, other_user){
+  for(var i = 0; i < span_channel_user.length; i++){
+    span_channel_user[i].addEventListener('click', function(){
+      messages.innerHTML = ''
+      if(autor == other_user){
+        setTimeout(()=>carregarMensagemRecebida(other_user, text), 100);
+      } else {
+        setTimeout(()=>carregarMensagemEnviada(text), 100);
+      }
+    })
   }
 }

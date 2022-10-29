@@ -58,6 +58,7 @@ body {
 
 #channels {
     height: 40%;
+    overflow-y: scroll;
 }
 
 .title-container {
@@ -119,6 +120,7 @@ body {
 
 #direct-messages {
     height: 44%;
+    overflow-y: scroll;
 }
 
 #user-container {

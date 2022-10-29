@@ -6,17 +6,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CONCORD | Seu Lugar para Concordar e Ficar De Boa</title>
+    <script src="https://unpkg.com/scrollreveal"></script>
     <script src="https://kit.fontawesome.com/3a51a2fe3a.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="css/style.css">
     <link rel="shortcut icon" href="img/favicon.png" type="image/x-icon">
     <script src="js/firebase.js" type="module" defer></script>
+    <script src="js/scrollReveal.js" defer></script>
     <script src="js/parallax.js" defer></script>
     <script src="js/scripts.js" defer></script>
 </head>
 
 <body>
     <header>
-        <!-- Colocar fundo parallax aqui -->
         <nav>
             <a href="index.html" id="main-page-link"><img src="img/icon_menu.png" alt="Concord" id="icon-menu">
                 Concord</a>
@@ -41,7 +42,7 @@
             <img src="img/section-image.png" alt="Pessoinhas e um celular gigante">
             <div>
                 <h2>Crie um espaço controlado por convite onde você se sinta em casa</h2>
-                <p>Os servidores Discord são organizados em canais com assuntos para vocês colaborarem, compartilharem ou simplesmente falarem do dia sem entupir um chat geral.</p>
+                <p>Os servidores Concord são organizados em canais com assuntos para vocês colaborarem, compartilharem ou simplesmente falarem do dia sem entupir um chat geral.</p>
             </div>
         </section>
         <section class="section-presentation">
@@ -70,33 +71,45 @@
         </div>
     </footer>
 
-    <!-- Loading rápido -->
-    <!-- Modal ???????-->
+    <!-- Loading rápido? -->
     <div id="background-modal">
 
-        <div class="login-modal">
-            <form class="form-login">
+        <div class="modal-container" id="login-modal">
+            <form class="form-modal">
+                <div class="container-close-modal"><a href="#" class="close-modal"><i class="fa-solid fa-xmark"></i></a></div>
                 <h2>Boas vindas de volta!</h2>
                 <p>Estamos muito animados em te ver novamente!</p>
-                <label for="email">E-mail:</label>
-                <input type="email" id="email-login" class="input-texto">
-                <label for="password">Senha:</label>
-                <input type="password" id="password-login" class="input-texto">
-                <input type="submit" value="entrar" class="input-login" id="login-input">
-                <p>não tem uma conta?<button id="cadasto-button" onclick="botaoCadastro()" href="#cadastro-modal">cadastre-se</button></p>
+                <div class="container-input">
+                    <label for="email">E-mail:</label>
+                    <input type="email" id="email-login" class="input-texto">
+                </div>
+                <div class="container-input">
+                    <label for="password">Senha:</label>
+                    <input type="password" id="password-login" class="input-texto">
+                </div>
+                <input type="submit" value="entrar" class="form-submit" id="login-input">
+                <p>Não tem uma conta?<button id="cadastro-button" onclick="botaoCadastro()">Cadastre-se</button></p>
             </form>
         </div>
-        <div id="cadastro-modal">
-            <form class="form-cadastro">
+        <div class="modal-container" id="cadastro-modal">
+            <form class="form-modal">
+                <div class="container-close-modal"><a href="#" class="close-modal"><i class="fa-solid fa-xmark"></i></a></div>
                 <h2>Criar uma conta</h2>
-                <label for="email">email:</label>
-                <input type="email" class="input-texto" id="email-cadastro">
-                <label for="password">senha:</label>
-                <input type="password"class="input-texto" id="password-cadastro">
-                <label for="username">nome de usuário:</label>
-                <input type="text" class="input-texto" id="username">
-                <input type="submit" value="cadastre-se" class="input-login" id="cadastrar-input">
-                <p>ao cadastrar você "concord" com os<a href="#" class="terms-link"> termos de uso</a></p>
+                <div class="container-input">
+                    <label for="email">email:</label>
+                    <input type="email" class="input-texto" id="email-cadastro">
+                </div>
+                <div class="container-input">
+                    <label for="password">senha:</label>
+                    <input type="password"class="input-texto" id="password-cadastro">
+                </div>
+                <div class="container-input">
+                    <label for="username">nome de usuário:</label>
+                    <input type="text" class="input-texto" id="username">
+                </div>
+                <p>Já tem uma conta?<button id="cadastro-button" onclick="botaoLogin()">Fazer Login</button></p>
+                <input type="submit" value="cadastre-se" class="form-submit" id="cadastrar-input">
+                <p>Ao cadastrar você "concord" com os<a href="#" class="terms-link"> termos de uso</a></p>
             </form>
         </div>
     </div>
