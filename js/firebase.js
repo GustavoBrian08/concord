@@ -34,15 +34,8 @@ const container_message_sended = document.getElementsByClassName('container-mess
 const message_span = document.getElementsByClassName('message-span');
 const username_field = document.getElementById('username-field');
 
-
-var nome_usuario;
-var mensagem;
-var user_email;
-
-
 if(cadastrarInput) cadastrarInput.onclick = cadastrarUsuario;
 if(loginInput) loginInput.onclick = fazerLogin;
-
 
 onAuthStateChanged(auth,async (user) => {
   if (user) {
@@ -62,41 +55,38 @@ onAuthStateChanged(auth,async (user) => {
         const conversa_id = doc.id;
         data.forEach(async function(usuario_conversa){
           
-          if (usuario_conversa != username){
-            var outro_usuario = usuario_conversa;
-            
-            const mensagens = query(collection(db, "Mensagens"), where("usuario", "==", outro_usuario), orderBy('criadoEm'));
+          const mensagens = query(collection(db, "Mensagens"), orderBy('criadoEm'));
             const dados_mensagens = await getDocs(mensagens);
-            
+
             dados_mensagens.forEach((doc) => {
-              const mensagem = doc.data().texto;
-              carregarMensagemRecebida(outro_usuario, mensagem);
+              const mensagem = doc.data().texto;              
+              
+              if (usuario_conversa != username){
+                var outro_usuario = usuario_conversa;
+                if(doc.data().usuario == outro_usuario){
+                  carregarMensagemRecebida(outro_usuario, mensagem);
+                  
+                } else if(doc.data().usuario == username){
+                  if(text_field){
+                    text_field.addEventListener("submit", function(e){
+                      //console.log("Mensagem enviada através da função externa!");
+                      e.preventDefault();
+                      enviarMensagem(input_text.value, conversa_id, username);
+                    })
+                  }
+                  const tempo = doc.data().criadoEm;
+                  
+                  carregarMensagemEnviada(mensagem);
+                  
+                }               
+              }
             });
-          } else {
-            const mensagens = query(collection(db, "Mensagens"), where("usuario", "==", username), orderBy('criadoEm'));
-            const dados_mensagens = await getDocs(mensagens);
-            
-            if(text_field){
-              text_field.addEventListener("submit", function(e){
-                console.log("Mensagem enviada através da função externa!");
-                e.preventDefault();
-                enviarMensagem(input_text.value, conversa_id, username);
-              })
-            }
-            dados_mensagens.forEach((doc) => {
-              const mensagem = doc.data().texto;
-              carregarMensagemEnviada(mensagem);
-              console.log("Mensagens carregadas com sucesso!");
-            });
-          }
         })
       });
-    
     });
   } else {
     // User is signed out
     console.log("Usuário deslogado!")
-    // ...
   }
 });
 
