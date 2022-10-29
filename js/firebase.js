@@ -1,6 +1,6 @@
 // IMPORTAÇÕES DO FIREBASE
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.12.1/firebase-app.js";
-import { getFirestore, collection, addDoc, query, where, onSnapshot, getDocs, doc, getDoc } from "https://www.gstatic.com/firebasejs/9.12.1/firebase-firestore.js"
+import { getFirestore, collection, addDoc, query, where, getDocs, onSnapshot, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.12.1/firebase-firestore.js"
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.12.1/firebase-auth.js";
 
 // CONFIGURAÇÃO DO FIREBASE
@@ -42,12 +42,7 @@ var user_email;
 
 if(cadastrarInput) cadastrarInput.onclick = cadastrarUsuario;
 if(loginInput) loginInput.onclick = fazerLogin;
-if(text_field){
-  text_field.addEventListener("submit", function(e){
-    e.preventDefault();
-    enviarMensagem();
-  })
-}
+
 
 onAuthStateChanged(auth,async (user) => {
   if (user) {
@@ -64,32 +59,43 @@ onAuthStateChanged(auth,async (user) => {
       
       dados_conversas.forEach((doc) => {
         const data = doc.data().usuarios;
+        const conversa_id = doc.id;
         data.forEach(async function(usuario_conversa){
-
-          const mensagens = query(collection(db, "Mensagens"), where("usuario", "==", username));
-          const dados_mensagens = await getDocs(mensagens);
-
+          
           if (usuario_conversa != username){
             var outro_usuario = usuario_conversa;
-            console.log(outro_usuario);
-
-
-
-          } else {
-
+            
+            const mensagens = query(collection(db, "Mensagens"), where("usuario", "==", outro_usuario), orderBy('criadoEm'));
+            const dados_mensagens = await getDocs(mensagens);
+            
             dados_mensagens.forEach((doc) => {
               const mensagem = doc.data().texto;
-              console.log(mensagem);
-
+              carregarMensagemRecebida(outro_usuario, mensagem);
+            });
+          } else {
+            const mensagens = query(collection(db, "Mensagens"), where("usuario", "==", username), orderBy('criadoEm'));
+            const dados_mensagens = await getDocs(mensagens);
+            
+            if(text_field){
+              text_field.addEventListener("submit", function(e){
+                console.log("Mensagem enviada através da função externa!");
+                e.preventDefault();
+                enviarMensagem(input_text.value, conversa_id, username);
+              })
+            }
+            dados_mensagens.forEach((doc) => {
+              const mensagem = doc.data().texto;
+              carregarMensagemEnviada(mensagem);
+              console.log("Mensagens carregadas com sucesso!");
             });
           }
-
         })
       });
     
     });
   } else {
     // User is signed out
+    console.log("Usuário deslogado!")
     // ...
   }
 });
@@ -100,8 +106,7 @@ async function cadastrarUsuario(){
     const docRef = await addDoc(collection(db, "Usuarios"), {
       username: username.value,
       email: email_cadastro.value,
-      conversas: {},
-
+      conversas: {}
     });
     console.log("Document written with ID: ", docRef.id);
     setTimeout(function(){
@@ -140,9 +145,26 @@ function fazerLogin(){
   });
 }
 
-//function carregarMensagemRecebida(){}
+function carregarMensagemRecebida(user, text){
+  const novo_container_mensagem = document.createElement('div');
+  const novo_span_mensagem = document.createElement('span');
+  const novo_usuario_nome = document.createElement('h5');
+  const nova_mensagem = document.createElement('p');
+  
+  novo_container_mensagem.classList.add('container-message-received');
+  novo_span_mensagem.classList.add('message-span');
+  nova_mensagem.classList.add('message-text');
 
-function enviarMensagem(){
+  messages.appendChild(novo_container_mensagem);
+  novo_container_mensagem.appendChild(novo_span_mensagem);
+  novo_span_mensagem.appendChild(novo_usuario_nome);
+  novo_span_mensagem.appendChild(nova_mensagem);
+
+  novo_usuario_nome.innerHTML = user;
+  nova_mensagem.innerHTML = text;
+}
+
+function carregarMensagemEnviada(text){
   const novo_container_mensagem = document.createElement('div');
   const novo_span_mensagem = document.createElement('span');
   const nova_mensagem = document.createElement('p');
@@ -154,6 +176,22 @@ function enviarMensagem(){
   messages.appendChild(novo_container_mensagem);
   novo_container_mensagem.appendChild(novo_span_mensagem);
   novo_span_mensagem.appendChild(nova_mensagem);
-  nova_mensagem.innerHTML = input_text.value;
+  nova_mensagem.innerHTML = text;
+}
+
+async function enviarMensagem(text, conversa_id, username){
+  carregarMensagemEnviada(input_text.value);
   input_text.value = '';
+
+  try {
+    const docRef = await addDoc(collection(db, "Mensagens"), {
+      conversa: `/Conversas/${conversa_id}`,
+      texto: text,
+      usuario: username,
+      criadoEm: serverTimestamp()
+    });
+    console.log("Document written with ID: ", docRef.id);
+  } catch (e) {
+    console.error("Error adding document: ", e);
+  }
 }
