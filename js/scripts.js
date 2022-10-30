@@ -23,22 +23,26 @@ const botaoLogin = function(){
     login_modal.style.display = 'flex';
 }
 
-change_theme_button.addEventListener('click', function(){
+const mudarTemaIndex = function(){
     if(icon_theme_button.classList.contains('fa-moon')){
         icon_theme_button.classList.replace('fa-moon', 'fa-sun');
     } else {
         icon_theme_button.classList.replace('fa-sun', 'fa-moon');
     }
-
-    // INDEX
     header_index.classList.toggle('dark-header-index');
     body_index.classList.toggle('dark-body-index');
     background_modal.classList.toggle('dark-background-modal');
+}
 
-    // CHAT
+const mudarTemaChat = function(){
+    if(icon_theme_button.classList.contains('fa-moon')){
+        icon_theme_button.classList.replace('fa-moon', 'fa-sun');
+    } else {
+        icon_theme_button.classList.replace('fa-sun', 'fa-moon');
+    }
     conversation.classList.toggle('dark-conversation');
     conversation_nav.classList.toggle('dark-conversation-nav');
     chat.classList.toggle('dark-chat');
     messages.classList.toggle('dark-messages');
     user_container.classList.toggle('dark-user-container');
-} )
+}
