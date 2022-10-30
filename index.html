@@ -16,15 +16,15 @@
     <script src="js/scripts.js" defer></script>
 </head>
 
-<body>
-    <header>
+<body id="body-index">
+    <header id="header-index">
         <nav>
             <a href="index.html" id="main-page-link"><img src="img/icon_menu.png" alt="Concord" id="icon-menu">
                 Concord</a>
             <div class="nav-buttons">
                 <a href="#background-modal" id="login-modal-button" class="button-nav">Cadastrar/Entrar</a>
                 <button id="change-theme-button" class="button-nav"><i id="icon-theme-button" class="fa-solid fa-moon"></i></button>
-            </div>                                                         <!-- fa-sun/fa-moon -->
+            </div>                                              
         </nav>
         <div id="presentation">
                 <h1>IMAGINE UM LUGAR...</h1>
@@ -73,7 +73,6 @@
 
     <!-- Loading rápido? -->
     <div id="background-modal">
-
         <div class="modal-container" id="login-modal">
             <form class="form-modal">
                 <div class="container-close-modal"><a href="#" class="close-modal"><i class="fa-solid fa-xmark"></i></a></div>
@@ -88,7 +87,7 @@
                     <input type="password" id="password-login" class="input-texto">
                 </div>
                 <input type="submit" value="entrar" class="form-submit" id="login-input">
-                <p>Não tem uma conta?<button id="cadastro-button" onclick="botaoCadastro()">Cadastre-se</button></p>
+                <p>Não tem uma conta?<button class="cadastro-button" onclick="botaoCadastro()">Cadastre-se</button></p>
             </form>
         </div>
         <div class="modal-container" id="cadastro-modal">
@@ -107,7 +106,7 @@
                     <label for="username">nome de usuário:</label>
                     <input type="text" class="input-texto" id="username">
                 </div>
-                <p>Já tem uma conta?<button id="cadastro-button" onclick="botaoLogin()">Fazer Login</button></p>
+                <p>Já tem uma conta?<button class="cadastro-button" onclick="botaoLogin()">Fazer Login</button></p>
                 <input type="submit" value="cadastre-se" class="form-submit" id="cadastrar-input">
                 <p>Ao cadastrar você "concord" com os<a href="#" class="terms-link"> termos de uso</a></p>
             </form>

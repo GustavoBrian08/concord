@@ -11,10 +11,16 @@
 
 :root {
     --cor-principal: #00CE55;
-    --cor-light-theme: #F6F6F6;
-    --cor-light-theme-2: #e2e2e2;
+    --cor-principal-2: #008537;
+    --cor-light-theme: #F2F3F5;
+    --cor-light-theme-2: #E3E5E8;
+    --cor-light-theme-3: #bea37e;
     --cor-dark-theme: #181818;
-    --cor-dark-theme-2: #000;
+    --cor-dark-theme-2: #36393F;
+    --cor-dark-theme-3: #32353B;
+    --cor-dark-theme-4: #202225;
+    --cor-message-dark-theme: #b4b4b4;
+    --cor-message-dark-theme-2: #A3A6AA;
     --cor-botões:#53a553;
     --cor-texto-botões:#dff7e0;
 }
@@ -36,13 +42,13 @@ body::-webkit-scrollbar-thumb {
     border-radius: 20px;
 }
 
-header {
+#header-index {
     height: 100vh;
     display: flex;
     flex-direction: column;
 }
 
-header nav {
+#header-index nav {
     display: flex;
     padding: 17px 0;
     justify-content: space-around;
@@ -246,7 +252,7 @@ header nav {
     box-shadow: 0px 6px 8px 1px #00000040;
 }
 
-#cadastro-button {
+.cadastro-button {
     background-color: transparent;
     border: none;
     cursor: pointer;
@@ -255,7 +261,7 @@ header nav {
     font-weight: 500;
 }
 
-#cadastro-button:hover {
+.cadastro-button:hover {
     text-decoration: underline;
 }
 
@@ -387,3 +393,84 @@ footer div h1 {
     margin-bottom: 10px;
 }
 
+/* DARK THEME */
+
+
+.dark-header-index {
+    background-color: rgba(0, 0, 0, 0.397) !important;
+    color: white !important;
+}
+
+.dark-header-index nav div a, .dark-header-index div a, .dark-header-index button {
+    background-color: var(--cor-principal) !important;
+    color: black !important;
+}
+
+.dark-header-index button:hover, .dark-header-index nav div a:hover, .dark-header-index div a:hover  {
+    background-color: var(--cor-dark-theme) !important;
+    color: var(--cor-principal) !important;
+}
+
+.dark-body-index::-webkit-scrollbar-track {
+    background-color: var(--cor-dark-theme-4) !important;
+}
+
+.dark-body-index section::before {
+    background-image: linear-gradient(to top, var(--cor-dark-theme-2), transparent) !important;
+}
+
+.dark-body-index main section {
+    background-color: var(--cor-dark-theme-4) !important; 
+}
+
+.dark-body-index main section:nth-child(2) {
+    background-color: var(--cor-principal) !important; 
+}
+
+.dark-body-index main section div {
+    color: var(--cor-light-theme) !important; 
+}
+
+.dark-body-index main section:nth-child(2) div {
+    color: black !important; 
+}
+
+.dark-body-index footer {
+    background-color: var(--cor-principal) !important; 
+}
+
+.dark-body-index footer div:first-child a {
+    background-color: var(--cor-dark-theme) !important; 
+}
+
+.dark-body-index footer div:first-child a:hover {
+    color: var(--cor-principal) !important; 
+}
+
+.dark-background-modal div {
+    background-color: var(--cor-dark-theme-4) !important;
+}
+
+.dark-background-modal div {
+    background-color: var(--cor-dark-theme-4) !important;
+    color: white !important;
+}
+
+.dark-background-modal div button, .dark-background-modal div a {
+    color: var(--cor-principal) !important;
+}
+
+.dark-background-modal div div input {
+    background-color: var(--cor-dark-theme) !important;
+    color: var(--cor-principal);
+}
+
+.dark-background-modal div input[type="submit"] {
+    background-color: var(--cor-principal) !important;
+    color: black !important;
+}
+
+.dark-background-modal div input:hover {
+    background-color: var(--cor-dark-theme) !important;
+    color: var(--cor-principal) !important;
+}

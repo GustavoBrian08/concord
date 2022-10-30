@@ -19,8 +19,6 @@
     --cor-dark-theme-4: #202225;
     --cor-message-dark-theme: #b4b4b4;
     --cor-message-dark-theme-2: #A3A6AA;
-    --cor-botões:#53a553;
-    --cor-texto-botões:#dff7e0;
 }
 
 body {
@@ -173,7 +171,6 @@ body {
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    margin-bottom: 10px;
 }
 
 #chat nav input {

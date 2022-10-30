@@ -9,6 +9,9 @@ const change_theme_button = document.getElementById('change-theme-button');
 const icon_theme_button = document.getElementById('icon-theme-button');
 const chat = document.getElementById('chat');
 const messages = document.getElementById('messages');
+const header_index = document.getElementById('header-index');
+const body_index = document.getElementById('body-index');
+const background_modal = document.getElementById('background-modal');
 
 const botaoCadastro = function(){
     login_modal.style.display = 'none';
@@ -21,14 +24,21 @@ const botaoLogin = function(){
 }
 
 change_theme_button.addEventListener('click', function(){
-    conversation.classList.toggle('dark-conversation');
-    conversation_nav.classList.toggle('dark-conversation-nav');
-    chat.classList.toggle('dark-chat');
-    messages.classList.toggle('dark-messages');
-    user_container.classList.toggle('dark-user-container');
     if(icon_theme_button.classList.contains('fa-moon')){
         icon_theme_button.classList.replace('fa-moon', 'fa-sun');
     } else {
         icon_theme_button.classList.replace('fa-sun', 'fa-moon');
     }
+
+    // INDEX
+    header_index.classList.toggle('dark-header-index');
+    body_index.classList.toggle('dark-body-index');
+    background_modal.classList.toggle('dark-background-modal');
+
+    // CHAT
+    conversation.classList.toggle('dark-conversation');
+    conversation_nav.classList.toggle('dark-conversation-nav');
+    chat.classList.toggle('dark-chat');
+    messages.classList.toggle('dark-messages');
+    user_container.classList.toggle('dark-user-container');
 } )

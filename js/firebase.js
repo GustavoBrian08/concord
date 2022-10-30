@@ -90,9 +90,9 @@ onAuthStateChanged(auth,async (user) => {
                       for(var i = 0; i < username_direct_message.length; i++){
                         username_direct_message[i].innerHTML = outro_usuario;
                       }
-                      console.log(usuario_conversa)
+                      
                       if(conversa_id == mensagem_conversa){
-                        console.log(`chegou aqui`)
+
                         if(autor_mensagem == outro_usuario){
                           //console.log(`outro usuario: ${conversa_id}`)
                           //console.log(`outro usuario: ${mensagem_conversa}`)
