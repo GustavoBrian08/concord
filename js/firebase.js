@@ -242,9 +242,9 @@ function abrirConversa(text, autor, other_user){
     span_channel_user[i].addEventListener('click', function(){
       messages.innerHTML = ''
       if(autor == other_user){
-        setTimeout(()=>carregarMensagemRecebida(other_user, text), 100);
+        setTimeout(() => carregarMensagemRecebida(other_user, text), 100);
       } else {
-        setTimeout(()=>carregarMensagemEnviada(text), 100);
+        setTimeout(() => carregarMensagemEnviada(text), 100);
       }
     })
   }

@@ -10,17 +10,17 @@
 :root {
     --cor-principal: #00CE55;
     --cor-principal-2: #008537;
-    --cor-light-theme: #f6f6f6;
-    --cor-light-theme-2: #e2e2e2;
+    --cor-light-theme: #F2F3F5;
+    --cor-light-theme-2: #E3E5E8;
     --cor-light-theme-3: #bea37e;
     --cor-dark-theme: #181818;
-    --cor-dark-theme-2: #000;
+    --cor-dark-theme-2: #36393F;
+    --cor-dark-theme-3: #32353B;
+    --cor-dark-theme-4: #202225;
+    --cor-message-dark-theme: #b4b4b4;
+    --cor-message-dark-theme-2: #A3A6AA;
     --cor-botões:#53a553;
     --cor-texto-botões:#dff7e0;
-}
-
-.dark-theme {
-    background-color: var(--cor-dark-theme);
 }
 
 body {
@@ -37,7 +37,7 @@ body {
     height: 100vh;
 }
 
-#conversation nav {
+#conversation-nav {
     height: 6%;
     box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.123);
     display: flex;
@@ -137,6 +137,12 @@ body {
     align-items: center;
 }
 
+#username-field {
+    color: var(--cor-light-theme);
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
 #change-theme-button {
     padding: 0px;
     min-height: 40px;
@@ -158,6 +164,7 @@ body {
     display: flex;
     flex-direction: column;
     width: 80vw;
+    background-color: var(--cor-light-theme);
 }
 
 #chat nav {
@@ -271,4 +278,106 @@ body {
 
 #send-button:hover {
     background-color: var(--cor-principal);
+}
+
+/* DARK THEME */
+
+.dark-conversation {
+    background-color: #2F3136 !important;
+    color: var(--cor-message-dark-theme) !important;
+}
+
+.dark-conversation  nav input {
+    background-color: var(--cor-dark-theme-4) !important;
+    color: white !important;
+}
+
+.dark-conversation  nav input::placeholder {
+    color: var(--cor-message-dark-theme) !important;
+}
+
+.dark-conversation  div span:hover {
+    background-color: var(--cor-dark-theme) !important;
+    color: var(--cor-principal) !important;
+}
+
+.dark-conversation h5, .dark-conversation button {
+    color: var(--cor-message-dark-theme-2) !important;
+}
+
+.dark-conversation h5:hover, .dark-conversation button:hover {
+    color: #DCDDDE !important;
+}
+
+.dark-conversation-nav {
+    box-shadow: 0px 2px 9px 0px rgba(0, 0, 0, 0.096) !important;
+}
+
+.dark-user-container {
+    background-color: var(--cor-dark-theme-4) !important;
+}
+
+.dark-user-container h4 {
+    color: var(--cor-message-dark-theme) !important;
+}
+
+.dark-user-container button {
+    background-color: var(--cor-dark-theme-2) !important;
+    color: var(--cor-message-dark-theme) !important;
+}
+
+.dark-user-container button:hover {
+    background-color: var(--cor-dark-theme) !important;
+    color: var(--cor-principal) !important;
+}
+
+.dark-chat {
+    background-color: var(--cor-dark-theme-2) !important;
+}
+
+.dark-chat nav {
+    box-shadow: 0px 2px 9px 0px rgba(0, 0, 0, 0.096) !important;
+}
+
+.dark-chat nav  input {
+    background-color: var(--cor-dark-theme-4) !important;
+}
+
+.dark-chat nav  input::placeholder {
+    color: var(--cor-message-dark-theme) !important;
+}
+
+.dark-chat nav span {
+    color: var(--cor-message-dark-theme) !important;
+}
+
+.dark-chat form input {
+    background-color: #40444B !important;
+}
+
+.dark-chat form button {
+    background-color: var(--cor-dark-theme-4) !important;
+    color: var(--cor-message-dark-theme-2) !important;
+}
+
+.dark-chat form button:hover {
+    background-color: var(--cor-dark-theme) !important;
+    color: var(--cor-principal) !important;
+}
+
+.dark-chat nav span:hover {
+    background-color: var(--cor-dark-theme-3) !important;
+}
+
+.dark-messages div:hover {
+    background-color: var(--cor-dark-theme-3) !important;
+}
+
+.dark-messages div span {
+    background-color: #202225 !important;
+    color: var(--cor-message-dark-theme);
+}
+
+.dark-messages div span h5{
+    color: var(--cor-message-dark-theme-2);
 }
