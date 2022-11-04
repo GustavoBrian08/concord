@@ -3,6 +3,7 @@ var montanhasTras = document.getElementById('montanhas-tras');
 var montanhaFrente = document.getElementById('montanha-frente');
 var nav = document.querySelector('nav');
 
+// MUDANDO AS POSIÇÕES DAS IMAGENS PARA EFEITO PARALLAX
 window.addEventListener('scroll', function(){
     var value = window.scrollY;
     ceu.style.left = value * 0.3 + 'px';

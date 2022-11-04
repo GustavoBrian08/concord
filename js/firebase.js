@@ -18,7 +18,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
 
-// PEGANDO VAŔIOS ELEMENTOS PARA LOGIN E CADASTRO
+// PEGANDO VAŔIOS ELEMENTOS DO INDEX E DO CHAT
 const email_cadastro = document.getElementById('email-cadastro');
 const password_cadastro = document.getElementById('password-cadastro');
 const email_login = document.getElementById('email-login');
@@ -26,22 +26,21 @@ const password_login = document.getElementById('password-login');
 const username = document.getElementById('username');
 const cadastrarInput = document.getElementById('cadastrar-input');
 const loginInput = document.getElementById('login-input');
-
 const messages = document.getElementById('messages');
 const text_field = document.getElementById('text-field');
 const input_text = document.getElementById('input-text');
-const container_message_sended = document.getElementsByClassName('container-message-sended');
-const span_channel_user = document.getElementsByClassName('span-channel-user');
 const username_field = document.getElementById('username-field');
-const username_direct_message = document.getElementsByClassName('username-direct-message');
 const direct_messages = document.getElementById('direct-messages');
 
+// EXECUTANDO AS FUNÇÕES DE LOGIN E CADASTRO
 if(cadastrarInput) cadastrarInput.onclick = cadastrarUsuario;
 if(loginInput) loginInput.onclick = fazerLogin;
 
-onAuthStateChanged(auth,async (user) => {
+// VERIFICANDO SE O USUÁRIO CONTINUA CONECTADO E ASSIM, PEGANDO DADOS DO MESMO
+onAuthStateChanged(auth, async (user) => {
   if (user) {
 
+    // FAZENDO UMA REQUISIÇÃO DA COLEÇÃO USUARIOS, PARA CARREGAR TODOS OS OUTROS USUÁRIOS
     const outro_usuarios = query(collection(db, "Usuarios"), where("email", "!=", user.email));
     const dados_outros_usuarios = await getDocs(outro_usuarios);
     dados_outros_usuarios.forEach((doc) => {
@@ -49,76 +48,41 @@ onAuthStateChanged(auth,async (user) => {
       carregarUsuarios(usuario);
     });
 
+    // FAZENDO OUTRA REQUISIÇÃO PARA PEGAR O NOME DE USUÁRIO
     const usuarios = query(collection(db, "Usuarios"), where("email", "==", user.email));
     const dados_usuarios = await getDocs(usuarios);
-    
     dados_usuarios.forEach(async (usuario) => {
       const username = usuario.data().username;
-      console.log(username);
+      username_field.innerHTML = username; // Atribuindo o nome de usuário no campo do usuário logado
+      console.log(`${username} está logado!`);
 
-      username_field.innerHTML = username;
-      
-      const conversas = query(collection(db, "Conversas"), where("usuarios", "array-contains", username));
-      
-      const dados_conversas = onSnapshot(conversas, (snapshot) => {
+      // QUANDO TIVER UM SUBMIT, ENVIAR A MENSAGEM
+      text_field.addEventListener("submit", function(e){
+        e.preventDefault(); // Impedindo que a página atualize
+        if(input_text.value.length != 0 && input_text.value != ' ') {
+          enviarMensagem(input_text.value, username);
+        }
+      })
+
+      // PEGANDO TODAS AS MENSAGENS EM TEMPO REAL
+      const mensagens = query(collection(db, "Mensagens"), orderBy('criadoEm'));       
+      onSnapshot(mensagens, (snapshot) => {
         snapshot.docChanges().forEach((change) => {
           if (change.type === "added") {
-            const lista_conversa_usuarios = change.doc.data().usuarios;
-            const conversa_id = change.doc.id;
-            lista_conversa_usuarios.forEach(async function(usuario_conversa){
+            const mensagem = change.doc.data().texto;
+            const autor_mensagem = change.doc.data().usuario;
 
-              text_field.addEventListener("submit", function(e){
-                e.preventDefault();
-                if(input_text.value.length != 0 && input_text.value != ' ') {
-                  enviarMensagem(input_text.value, conversa_id, username);
-                }
-              })
-            
-              const mensagens = query(collection(db, "Mensagens"), orderBy('criadoEm'));
-
-              const dados_mensagens = onSnapshot(mensagens, (snapshot) => {
-                snapshot.docChanges().forEach((change) => {
-                  if (change.type === "added") {
-                    const mensagem = change.doc.data().texto;
-                    const mensagem_conversa = change.doc.data().conversa;
-                    const autor_mensagem = change.doc.data().usuario;
-                              
-                    if (usuario_conversa != username){
-                      var outro_usuario = usuario_conversa;
-                      
-                      
-                      for(var i = 0; i < username_direct_message.length; i++){
-                        username_direct_message[i].innerHTML = outro_usuario;
-                      }
-                      
-                      if(conversa_id == mensagem_conversa){
-
-                        if(autor_mensagem == outro_usuario){
-                          //console.log(`outro usuario: ${conversa_id}`)
-                          //console.log(`outro usuario: ${mensagem_conversa}`)
-                          carregarMensagemRecebida(outro_usuario, mensagem);
-                          abrirConversa(mensagem, autor_mensagem, outro_usuario);
-                          
-                        } else if(autor_mensagem == username){  
-                          //console.log(`este usuario: ${conversa_id}`)
-                          //console.log(`este usuario: ${mensagem_conversa}`)
-                          carregarMensagemEnviada(mensagem);
-                          //console.log(mensagem)
-                          abrirConversa(mensagem, autor_mensagem, outro_usuario);
-                        }               
-                      }
-                    }
-                  }
-                });
-              });
-            })
+            if(autor_mensagem != username){
+              carregarMensagemRecebida(autor_mensagem, mensagem);
+            } else {
+              carregarMensagemEnviada(mensagem);
+            }
           }
         });
       });
     });
   } else {
-    // User is signed out
-    console.log("Usuário deslogado!")
+    console.log("Usuário deslogado!");
   }
 });
 
@@ -132,37 +96,48 @@ async function cadastrarUsuario(){
     console.log("Document written with ID: ", docRef.id);
     setTimeout(function(){
       window.location.href = "chat.html"
-    }, 2000);
+    }, 1000);
   } catch (e) {
-    console.error("Error adding document: ", e);
+    console.error("Erro! Dados do usuário não cadastrados: ", e);
+  }
+
+  try {
+    const docRef = await addDoc(collection(db, "Mensagens"), {
+      texto: `${username.value} entrou no grupo.`,
+      usuario: username.value,
+      criadoEm: serverTimestamp()
+    });
+  } catch (e) {
+    console.error("Erro! Mensagem vazia não criada: ", e);
   }
   
   createUserWithEmailAndPassword(auth, email_cadastro.value, password_cadastro.value)
   .then((userCredential) => {
-    // Signed in
     const user = userCredential.user;
     console.log("Usuario cadastrado com sucesso!")
   })
   .catch((error) => {
     const errorCode = error.code;
     const errorMessage = error.message;
-      // ..
+    console.log(`Falha ao cadastrar usuário: ${errorMessage}`);
+    console.log(errorCode);
     });
   }
 
 function fazerLogin(){
   signInWithEmailAndPassword(auth, email_login.value, password_login.value)
   .then((userCredential) => {
-    // Signed in
     const user = userCredential.user;
     console.log("Usuario logado com sucesso!")
     setTimeout(function(){
       window.location.href = "chat.html"
-    }, 2000);
+    }, 1000);
   })
   .catch((error) => {
     const errorCode = error.code;
     const errorMessage = error.message;
+    console.log(`Falha ao fazer login: ${errorMessage}`);
+    console.log(errorCode);
   });
 }
 
@@ -183,7 +158,9 @@ function carregarMensagemRecebida(user, text){
 
   novo_usuario_nome.innerHTML = user;
   nova_mensagem.innerHTML = text;
-  messages.scroll(0,100);
+  messages.scroll(0,100); // Atualizando o scroll da página
+
+  // CARREGANDO E REPRODUZINDO O ÁUDIO DE MENSAGEM RECEBIDA
   var audio = new Audio('./sound/mensagem_recebida.mp3');
   audio.addEventListener('canplaythrough', function() {
     audio.play();
@@ -206,18 +183,16 @@ function carregarMensagemEnviada(text){
   messages.scroll(0,100);
 }
 
-async function enviarMensagem(text, conversa_id, username){
+async function enviarMensagem(text, username){
   input_text.value = '';
   try {
     const docRef = await addDoc(collection(db, "Mensagens"), {
-      conversa: conversa_id,
       texto: text,
       usuario: username,
       criadoEm: serverTimestamp()
     });
-    console.log("Document written with ID: ", docRef.id);
   } catch (e) {
-    console.error("Error adding document: ", e);
+    console.error("Erro! Mensagem não enviada: ", e);
   }
 }
 
@@ -235,17 +210,4 @@ function carregarUsuarios(username){
   nova_imagem_usuario.src = 'img/favicon.png';
   nova_imagem_usuario.alt = username;
   novo_nome_usuario.innerHTML = username;
-}
-
-function abrirConversa(text, autor, other_user){
-  for(var i = 0; i < span_channel_user.length; i++){
-    span_channel_user[i].addEventListener('click', function(){
-      messages.innerHTML = ''
-      if(autor == other_user){
-        setTimeout(() => carregarMensagemRecebida(other_user, text), 100);
-      } else {
-        setTimeout(() => carregarMensagemEnviada(text), 100);
-      }
-    })
-  }
 }

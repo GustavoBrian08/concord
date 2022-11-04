@@ -378,3 +378,61 @@ body {
 .dark-messages div span h5{
     color: var(--cor-message-dark-theme-2);
 }
+
+/* MODAL DE AVISO */
+
+#background-modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #1b1f27d2;
+    color: black;
+    position: absolute;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    top: 0;
+    height: 100vh;
+    width: 100vw;
+    transition: .5s;
+}
+
+.modal-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: justify;
+    background-color: rgb(219, 219, 219);
+    font-size: large;
+    border-radius: 10px;
+    width: 544px;
+    height: 408px;
+    padding: 30px;
+    transition: .3s;
+}
+
+.modal-container img {
+    width: 55%;
+    height: 35%;
+}
+
+.modal-container button {
+    background-color: var(--cor-dark-theme);
+    color: white;
+    border: none;
+    border-radius: 30px;
+    font-size: 15px;
+    width: 150px;
+    height: 35px;
+    margin: 2.3vh 0;
+    align-self: center;
+    text-transform: uppercase;
+    font-weight: 700;
+    cursor: pointer;
+    transition: .2s ease-in-out;
+}
+
+.modal-container button:hover {
+    color: var(--cor-principal);
+    box-shadow: 0px 6px 8px 1px #00000040;
+}

@@ -13,11 +13,13 @@ const header_index = document.getElementById('header-index');
 const body_index = document.getElementById('body-index');
 const background_modal = document.getElementById('background-modal');
 
+// FUNÇÃO PARA IR PARA CADASTRO
 const botaoCadastro = function(){
     login_modal.style.display = 'none';
     cadastro_modal.style.display = 'flex';
 }
 
+// FUNÇÃO PARA IR PARA LOGIN
 const botaoLogin = function(){
     cadastro_modal.style.display = 'none';
     login_modal.style.display = 'flex';
@@ -45,4 +47,8 @@ const mudarTemaChat = function(){
     chat.classList.toggle('dark-chat');
     messages.classList.toggle('dark-messages');
     user_container.classList.toggle('dark-user-container');
+}
+
+const fecharAviso = function(){
+    background_modal.style.display = 'none';
 }

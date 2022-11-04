@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Concord | Chat</title>
-    <script src="https://unpkg.com/scrollreveal"></script>
-    <script src="https://kit.fontawesome.com/3a51a2fe3a.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/scrollreveal"></script> <!-- CDN SCROLLREVEAL -->
+    <script src="https://kit.fontawesome.com/3a51a2fe3a.js" crossorigin="anonymous"></script> <!-- KIT FONTAWESOME -->
     <link rel="stylesheet" href="css/chat.css">
     <link rel="shortcut icon" href="img/favicon.png" type="image/x-icon">
     <script src="js/scrollReveal.js" defer></script>
@@ -19,20 +19,18 @@
             <nav id="conversation-nav">
                 <input type="text" name="search-conversation" id="search-conversation" placeholder="Busque um canal...">
             </nav>
+            <!-- CANAIS -->
             <div id="channels">
                 <div class="title-container">
                     <h5>CANAIS</h5>
                     <button><i class="fa-solid fa-plus"></i></button>
                 </div>
                 <span class="span-channel-user">
-                    <img src="img/favicon.png" alt="test">
-                    <h3>Pokémon Go Piripiri</h3>
-                </span>
-                <span class="span-channel-user">
-                    <img src="img/favicon.png" alt="test">
-                    <h3>Central Filadélfia</h3>
+                    <img src="img/favicon.png" alt="grupo genérico">
+                    <h3>Grupinho dos melhores alunos</h3>
                 </span>
             </div>
+            <!-- MENSAGENS DIRETAS/USUÁRIOS -->
             <div id="direct-messages">
                 <div class="title-container">
                     <h5>MENSAGENS DIRETAS</h5>
@@ -52,7 +50,7 @@
             <nav>
                 <span class="span-channel-user">
                     <img src="img/favicon.png" alt="test">
-                    <h3 class="username-direct-message"></h3>
+                    <h3 class="username-direct-message">Grupinho dos melhores alunos</h3>
                 </span>
                 <input type="text" placeholder="Encontrar mensagem">
             </nav>
@@ -64,5 +62,13 @@
             </form>
         </div>
     </main>
+    <!-- MODAL DE AVISO -->
+    <div id="background-modal">
+        <div class="modal-container">
+            <img src="img/aviso.png" alt="aviso importante">
+            <p>Devido a falta de tempo para concluir algumas funcionalidades, retiramos parte do sistema para melhor experiência do Usuário. Logo, esta versão funciona apenas como um único grupo para as pessoas "concordarem". Para mais informações sobre o sistema completo e tudo que foi retirado, consulte os desenvolvedores.</p>
+            <button onclick="fecharAviso()">Fechar</button>
+        </div>
+    </div>
 </body>
 </html>
