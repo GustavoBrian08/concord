@@ -179,7 +179,7 @@ body::-webkit-scrollbar-thumb {
     background-color: var(--cor-principal);
     border-radius: 10px;
     width: 544px;
-    height: 408px;
+    height: 46vh;
     padding: 30px;
     transition: .3s;
 }

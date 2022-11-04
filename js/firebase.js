@@ -33,8 +33,8 @@ const username_field = document.getElementById('username-field');
 const direct_messages = document.getElementById('direct-messages');
 
 // EXECUTANDO AS FUNÇÕES DE LOGIN E CADASTRO
-if(cadastrarInput) cadastrarInput.onclick = cadastrarUsuario;
-if(loginInput) loginInput.onclick = fazerLogin;
+if (cadastrarInput) cadastrarInput.onclick = cadastrarUsuario;
+if (loginInput) loginInput.onclick = fazerLogin;
 
 // VERIFICANDO SE O USUÁRIO CONTINUA CONECTADO E ASSIM, PEGANDO DADOS DO MESMO
 onAuthStateChanged(auth, async (user) => {
@@ -57,22 +57,22 @@ onAuthStateChanged(auth, async (user) => {
       console.log(`${username} está logado!`);
 
       // QUANDO TIVER UM SUBMIT, ENVIAR A MENSAGEM
-      text_field.addEventListener("submit", function(e){
+      text_field.addEventListener("submit", function (e) {
         e.preventDefault(); // Impedindo que a página atualize
-        if(input_text.value.length != 0 && input_text.value != ' ') {
+        if (input_text.value.length != 0 && input_text.value != ' ') {
           enviarMensagem(input_text.value, username);
         }
       })
 
       // PEGANDO TODAS AS MENSAGENS EM TEMPO REAL
-      const mensagens = query(collection(db, "Mensagens"), orderBy('criadoEm'));       
+      const mensagens = query(collection(db, "Mensagens"), orderBy('criadoEm'));
       onSnapshot(mensagens, (snapshot) => {
         snapshot.docChanges().forEach((change) => {
           if (change.type === "added") {
             const mensagem = change.doc.data().texto;
             const autor_mensagem = change.doc.data().usuario;
 
-            if(autor_mensagem != username){
+            if (autor_mensagem != username) {
               carregarMensagemRecebida(autor_mensagem, mensagem);
             } else {
               carregarMensagemEnviada(mensagem);
@@ -86,7 +86,7 @@ onAuthStateChanged(auth, async (user) => {
   }
 });
 
-async function cadastrarUsuario(){
+async function cadastrarUsuario() {
 
   try {
     const docRef = await addDoc(collection(db, "Usuarios"), {
@@ -94,9 +94,20 @@ async function cadastrarUsuario(){
       email: email_cadastro.value,
     });
     console.log("Document written with ID: ", docRef.id);
-    setTimeout(function(){
-      window.location.href = "chat.html"
-    }, 1000);
+    setTimeout(function () {
+      signInWithEmailAndPassword(auth, email_cadastro.value, password_cadastro.value)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          console.log("Usuario logado com sucesso!")
+          setTimeout(function () {
+            window.location.href = "chat.html"
+          }, 100);
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+        });
+    }, 500);
   } catch (e) {
     console.error("Erro! Dados do usuário não cadastrados: ", e);
   }
@@ -110,43 +121,43 @@ async function cadastrarUsuario(){
   } catch (e) {
     console.error("Erro! Mensagem vazia não criada: ", e);
   }
-  
-  createUserWithEmailAndPassword(auth, email_cadastro.value, password_cadastro.value)
-  .then((userCredential) => {
-    const user = userCredential.user;
-    console.log("Usuario cadastrado com sucesso!")
-  })
-  .catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    console.log(`Falha ao cadastrar usuário: ${errorMessage}`);
-    console.log(errorCode);
-    });
-  }
 
-function fazerLogin(){
-  signInWithEmailAndPassword(auth, email_login.value, password_login.value)
-  .then((userCredential) => {
-    const user = userCredential.user;
-    console.log("Usuario logado com sucesso!")
-    setTimeout(function(){
-      window.location.href = "chat.html"
-    }, 1000);
-  })
-  .catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    console.log(`Falha ao fazer login: ${errorMessage}`);
-    console.log(errorCode);
-  });
+  createUserWithEmailAndPassword(auth, email_cadastro.value, password_cadastro.value)
+    .then((userCredential) => {
+      const user = userCredential.user;
+      console.log("Usuario cadastrado com sucesso!")
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log(`Falha ao cadastrar usuário: ${errorMessage}`);
+      console.log(errorCode);
+    });
 }
 
-function carregarMensagemRecebida(user, text){
+function fazerLogin() {
+  signInWithEmailAndPassword(auth, email_login.value, password_login.value)
+    .then((userCredential) => {
+      const user = userCredential.user;
+      console.log("Usuario logado com sucesso!")
+      setTimeout(function () {
+        window.location.href = "chat.html"
+      }, 1000);
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log(`Falha ao fazer login: ${errorMessage}`);
+      console.log(errorCode);
+    });
+}
+
+function carregarMensagemRecebida(user, text) {
   const novo_container_mensagem = document.createElement('div');
   const novo_span_mensagem = document.createElement('span');
   const novo_usuario_nome = document.createElement('h5');
   const nova_mensagem = document.createElement('p');
-  
+
   novo_container_mensagem.classList.add('container-message-received');
   novo_span_mensagem.classList.add('message-span');
   nova_mensagem.classList.add('message-text');
@@ -158,16 +169,16 @@ function carregarMensagemRecebida(user, text){
 
   novo_usuario_nome.innerHTML = user;
   nova_mensagem.innerHTML = text;
-  messages.scroll(0,100); // Atualizando o scroll da página
+  messages.scroll(0, 100); // Atualizando o scroll da página
 
   // CARREGANDO E REPRODUZINDO O ÁUDIO DE MENSAGEM RECEBIDA
   var audio = new Audio('./sound/mensagem_recebida.mp3');
-  audio.addEventListener('canplaythrough', function() {
+  audio.addEventListener('canplaythrough', function () {
     audio.play();
   });
 }
 
-function carregarMensagemEnviada(text){
+function carregarMensagemEnviada(text) {
   const novo_container_mensagem = document.createElement('div');
   const novo_span_mensagem = document.createElement('span');
   const nova_mensagem = document.createElement('p');
@@ -180,10 +191,10 @@ function carregarMensagemEnviada(text){
   novo_container_mensagem.appendChild(novo_span_mensagem);
   novo_span_mensagem.appendChild(nova_mensagem);
   nova_mensagem.innerHTML = text;
-  messages.scroll(0,100);
+  messages.scroll(0, 100);
 }
 
-async function enviarMensagem(text, username){
+async function enviarMensagem(text, username) {
   input_text.value = '';
   try {
     const docRef = await addDoc(collection(db, "Mensagens"), {
@@ -196,11 +207,11 @@ async function enviarMensagem(text, username){
   }
 }
 
-function carregarUsuarios(username){
+function carregarUsuarios(username) {
   const novo_container_usuario = document.createElement('span');
   const nova_imagem_usuario = document.createElement('img');
   const novo_nome_usuario = document.createElement('h3');
-  
+
   novo_container_usuario.classList.add('span-channel-user');
 
   direct_messages.appendChild(novo_container_usuario);
