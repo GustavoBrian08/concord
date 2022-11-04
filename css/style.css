@@ -179,7 +179,7 @@ body::-webkit-scrollbar-thumb {
     background-color: var(--cor-principal);
     border-radius: 10px;
     width: 544px;
-    height: 46vh;
+    height: 55vh;
     padding: 30px;
     transition: .3s;
 }
@@ -312,7 +312,6 @@ body::-webkit-scrollbar-thumb {
     object-fit: cover;
 }
 
-
 .section-presentation {
     display: flex;
     justify-content: space-around;
@@ -334,7 +333,7 @@ body::-webkit-scrollbar-thumb {
 .section-presentation div {
     display: flex;
     flex-direction: column;
-    width: 25vw;
+    width: 30vw;
     color: var(--cor-dark-theme);
 }
 
@@ -348,6 +347,7 @@ body::-webkit-scrollbar-thumb {
     font-weight: 300;
     font-size: 1.1rem;
     line-height: 170%;
+    
 }
 
 .section-presentation:nth-child(2) {

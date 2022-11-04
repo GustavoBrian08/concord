@@ -88,51 +88,60 @@ onAuthStateChanged(auth, async (user) => {
 
 async function cadastrarUsuario() {
 
-  try {
-    const docRef = await addDoc(collection(db, "Usuarios"), {
-      username: username.value,
-      email: email_cadastro.value,
-    });
-    console.log("Document written with ID: ", docRef.id);
-    setTimeout(function () {
-      signInWithEmailAndPassword(auth, email_cadastro.value, password_cadastro.value)
-        .then((userCredential) => {
+  const usuarios = query(collection(db, "Usuarios"), where("email", "==", email_cadastro.value));
+    const dados_usuarios = await getDocs(usuarios);
+    if (dados_usuarios.size == 0){
+      createUserWithEmailAndPassword(auth, email_cadastro.value, password_cadastro.value)
+        .then( async (userCredential) => {
           const user = userCredential.user;
-          console.log("Usuario logado com sucesso!")
-          setTimeout(function () {
-            window.location.href = "chat.html"
-          }, 100);
+          console.log("Usuario cadastrado com sucesso!");
+          try {
+            const docRef = await addDoc(collection(db, "Usuarios"), {
+              username: username.value,
+              email: email_cadastro.value,
+            });
+            console.log("Document written with ID: ", docRef.id);
+            setTimeout(function () {
+              signInWithEmailAndPassword(auth, email_cadastro.value, password_cadastro.value)
+                .then((userCredential) => {
+                  const user = userCredential.user;
+                  console.log("Usuario logado com sucesso!")
+                  setTimeout(function () {
+                    window.location.href = "chat.html"
+                  }, 100);
+                })
+                .catch((error) => {
+                  const errorCode = error.code;
+                  const errorMessage = error.message;
+                });
+            }, 500);
+          } catch (e) {
+            console.error("Erro! Dados do usuário não cadastrados: ", e);
+          }
+        
+          try {
+            const docRef = await addDoc(collection(db, "Mensagens"), {
+              texto: `${username.value} entrou no grupo.`,
+              usuario: username.value,
+              criadoEm: serverTimestamp()
+            });
+          } catch (e) {
+            console.error("Erro! Mensagem vazia não criada: ", e);
+          }
         })
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
+          console.log(`Falha ao cadastrar usuário: ${errorMessage}`);
+          console.log(errorCode);
         });
-    }, 500);
-  } catch (e) {
-    console.error("Erro! Dados do usuário não cadastrados: ", e);
-  }
-
-  try {
-    const docRef = await addDoc(collection(db, "Mensagens"), {
-      texto: `${username.value} entrou no grupo.`,
-      usuario: username.value,
-      criadoEm: serverTimestamp()
-    });
-  } catch (e) {
-    console.error("Erro! Mensagem vazia não criada: ", e);
-  }
-
-  createUserWithEmailAndPassword(auth, email_cadastro.value, password_cadastro.value)
-    .then((userCredential) => {
-      const user = userCredential.user;
-      console.log("Usuario cadastrado com sucesso!")
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      console.log(`Falha ao cadastrar usuário: ${errorMessage}`);
-      console.log(errorCode);
-    });
+      
+    } else {
+      console.log('Usuário já cadastrado!');
+    }
+    /*
+  
+    */
 }
 
 function fazerLogin() {
